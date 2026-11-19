@@ -3,20 +3,153 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>independentmadman.com</title>
-<meta name="robots" content="noindex">
+<title>Independent Madman — Software, marketing and games</title>
+<meta name="description" content="Independent Madman: one person for software, marketing and games. There's always a method to the Madness.">
+<meta property="og:title" content="Independent Madman">
+<meta property="og:description" content="Software, marketing and games. There's always a method to the Madness.">
+<meta property="og:image" content="https://independentmadman.com/img/share.jpg">
+<meta property="og:url" content="https://independentmadman.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1A1418">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preload" href="fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <style>
-  html, body { height: 100%; margin: 0; }
-  body { display: grid; place-items: center; background: #121815; color: #e8e4d8;
-         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; text-align: center; }
-  h1 { font-weight: 600; font-size: clamp(1.5rem, 4vw, 2.25rem); margin: 0 0 .5rem; }
-  p { margin: 0; color: #a8a596; }
+  @font-face { font-family: "Barlow Condensed"; src: url("fonts/barlow-condensed-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Space Mono"; src: url("fonts/space-mono-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Barlow Condensed"; src: url("fonts/barlow-condensed-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Space Mono"; src: url("fonts/space-mono-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+  :root {
+    --night: #1A1418; --after: #2A2228; --steel: #4A4648;
+    --light: #EEF0E9; --concrete: #9A958C; --neon: #31B1EC; --neon-hover: #6CCBF3;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+    --pad: clamp(20px, 5vw, 64px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--night); color: var(--light); font: 400 15px/1.6 var(--mono); }
+  a { color: var(--neon); text-decoration: none; }
+  a:hover { color: var(--neon-hover); }
+  a:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+  .caps { font-family: var(--display); text-transform: uppercase; letter-spacing: .08em; }
+
+  /* Header */
+  .hero { position: relative; min-height: min(90vh, 780px); display: flex; flex-direction: column;
+          background: url("img/header.jpg") center 40% / cover no-repeat; }
+  .hero::before { content: ""; position: absolute; inset: 0;
+          background:
+            linear-gradient(to bottom, rgba(26,20,24,.8) 0%, rgba(26,20,24,0) 22%),
+            linear-gradient(to top, var(--night) 0%, rgba(26,20,24,0) 40%),
+            linear-gradient(to right, rgba(26,20,24,.9) 0%, rgba(26,20,24,.6) 42%, rgba(26,20,24,0) 72%); }
+  .hero > * { position: relative; }
+  nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 26px var(--pad); }
+  .logo { display: flex; align-items: center; gap: 12px; font: 700 26px/1 var(--display); letter-spacing: .08em; color: var(--light); text-transform: uppercase; white-space: nowrap; }
+  .logo:hover { color: var(--light); }
+  .mark { display: grid; grid-template-columns: repeat(3, 7px); gap: 2px; }
+  .mark i { width: 7px; height: 7px; background: var(--steel); }
+  .mark i.lit { background: var(--neon); }
+  nav ul { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
+  nav ul a { color: var(--light); font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
+  nav ul a:hover { color: var(--neon); }
+  .hero-text { margin-top: auto; padding: 0 var(--pad) clamp(56px, 10vh, 110px); max-width: 820px; }
+  .label { display: inline-block; margin: 0 0 14px; padding: 4px 8px; background: rgba(26,20,24,.75); color: var(--neon); font-size: 14px; letter-spacing: .04em; }
+  h1 { margin: 0; font: 700 clamp(64px, 12vw, 136px)/.9 var(--display); letter-spacing: .03em; text-transform: uppercase; }
+  .slogan { margin: 22px 0 0; font: 700 clamp(16px, 1.8vw, 21px)/1.4 var(--mono); color: var(--light); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .btn { display: inline-block; padding: 14px 22px 12px; border: 2px solid var(--neon); font: 500 22px/1 var(--display); text-transform: uppercase; letter-spacing: .1em; }
+  .btn-primary { background: var(--neon); color: var(--night); }
+  .btn-primary:hover { background: var(--neon-hover); border-color: var(--neon-hover); color: var(--night); }
+  .btn-secondary { color: var(--neon); }
+
+  /* Cards */
+  main { padding: 0 var(--pad); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; scroll-margin-top: 24px; }
+  .card { background: var(--after); border: 2px solid var(--steel); border-top: 4px solid var(--neon); padding: 24px 26px 26px; display: flex; flex-direction: column; }
+  .card .num { color: var(--neon); font-weight: 700; font-size: 16px; }
+  .card h2 { margin: 8px 0 0; font: 700 44px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+  .card p { margin: 12px 0 24px; color: var(--concrete); }
+  .card a { margin-top: auto; font: 500 22px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; }
+
+  /* Method */
+  .method { max-width: 820px; padding: 88px 0 16px; scroll-margin-top: 24px; }
+  .method h2 { margin: 0 0 18px; font: 700 52px/1 var(--display); letter-spacing: .05em; text-transform: uppercase; }
+  .method p { margin: 0 0 14px; }
+  .method .muted { color: var(--concrete); }
+
+  footer { margin-top: 72px; padding: 30px var(--pad) 48px; border-top: 2px solid var(--steel); display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; color: var(--concrete); font-size: 14px; }
+  footer strong { color: var(--light); }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 16px; }
+    nav ul li.hide-sm { display: none; }
+    .logo { font-size: 19px; gap: 9px; }
+    .label { font-size: 11px; letter-spacing: 0; }
+    .hero::before { background:
+            linear-gradient(to bottom, rgba(26,20,24,.8) 0%, rgba(26,20,24,0) 25%),
+            linear-gradient(to top, var(--night) 0%, rgba(26,20,24,.45) 55%, rgba(26,20,24,.3) 100%); }
+  }
 </style>
 </head>
 <body>
+  <header class="hero">
+    <nav aria-label="Main">
+      <a class="logo" href="#top" id="top" aria-label="Independent Madman, home">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="lit"></i><i></i><i></i><i></i></span>
+        Independent Madman
+      </a>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li class="hide-sm"><a href="#method">Method</a></li>
+        <li><a href="mailto:andrew@independentmadman.com">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hero-text">
+      <p class="label">// OLE DREW · SOFTWARE · MARKETING · GAMES</p>
+      <h1>Independent<br>Madman</h1>
+      <p class="slogan">There's always a method to the Madness.</p>
+      <div class="buttons">
+        <a class="btn btn-primary" href="mailto:andrew@independentmadman.com?subject=New%20project">Start a project</a>
+        <a class="btn btn-secondary" href="#work">See the work</a>
+      </div>
+    </div>
+  </header>
+
   <main>
-    <h1>independentmadman.com</h1>
-    <p>Coming soon.</p>
+    <section class="cards" id="work" aria-label="What I do">
+      <article class="card">
+        <span class="num">01</span>
+        <h2>Software</h2>
+        <p>Small tools that do one job well, built for people who don't need a full-time developer.</p>
+        <a href="mailto:andrew@independentmadman.com?subject=Software%20project">Scope it -&gt;</a>
+      </article>
+      <article class="card">
+        <span class="num">02</span>
+        <h2>Marketing</h2>
+        <p>Strategy and content from someone with an MBA in marketing who actually ships the work.</p>
+        <a href="mailto:andrew@independentmadman.com?subject=Marketing%20project">Talk shop -&gt;</a>
+      </article>
+      <article class="card">
+        <span class="num">03</span>
+        <h2>Games</h2>
+        <p>Built nights and weekends under the Ole Drew name. Play them, then you'll know how I work.</p>
+        <a href="https://oledrew.com">Play -&gt;</a>
+      </article>
+    </section>
+
+    <section class="method" id="method">
+      <h2>The method</h2>
+      <p>One person, a lot of tools, and a plan. Ten years in the Air Force taught me to get the job done; an MBA taught me why the job matters. Everything else I taught myself.</p>
+      <p class="muted">From far away it looks like madness. Up close, it's a grid. Tell me what you need and I'll tell you honestly whether I'm the right fit.</p>
+      <p><a href="mailto:andrew@independentmadman.com">andrew@independentmadman.com</a></p>
+    </section>
   </main>
+
+  <footer>
+    <span><strong>Independent Madman</strong> · There's always a method to the Madness.</span>
+    <span><a href="mailto:andrew@independentmadman.com">Email</a> · <a href="https://oledrew.com">oledrew.com</a> · © 2026 Ole Drew</span>
+  </footer>
 </body>
 </html>
