@@ -55,11 +55,13 @@
   .mark { display: grid; grid-template-columns: repeat(3, 7px); gap: 2px; }
   .mark i { width: 7px; height: 7px; background: var(--steel); }
   .mark i.lit { background: var(--neon); }
-  .links { display: flex; gap: 18px; margin-left: 8px; }
-  .links a { color: var(--concrete); font: 500 17px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; }
+  .links { display: flex; gap: 16px; margin-left: 4px; }
+  .navcta .btn { white-space: nowrap; }
+  @media (max-width: 560px) { .markcard { grid-template-columns: 1fr !important; } }
+  .links a { white-space: nowrap; color: var(--concrete); font: 500 17px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; }
   .links a:hover, .links a.on { color: var(--light); }
   .navcta { margin-left: auto; display: flex; gap: 10px; }
-  @media (max-width: 900px) {
+  @media (max-width: 1320px) {
     nav.top .wrap { height: auto; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 12px 18px; }
     .links { order: 3; width: 100%; margin-left: 0; overflow-x: auto; white-space: nowrap; }
     .navcta .btn { padding: 9px 12px; font-size: 15px; } }
@@ -169,6 +171,7 @@
   <div class="wrap">
     <a class="brand" href="#home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="lit"></i><i></i><i></i><i></i></span><b>INDEPENDENT MADMAN</b></a>
     <div class="links">
+      <a href="#what" data-nav="what">What's a Madman?</a>
       <a href="#board" data-nav="board">Contract board</a>
       <a href="#madmen" data-nav="madmen">Find a Madman</a>
       <a href="#how" data-nav="how">How it works</a>
@@ -286,7 +289,7 @@ const views = {
       <div class="label">// The hub for independent talent</div>
       <h1 style="margin-top:14px">One job. The right Madman.</h1>
       <div class="slogan">There's always a method to the Madness.</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#post">Post a Contract</a><a class="btn ghost" href="#join">Become a Madman</a></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#post">Post a Contract</a><a class="btn ghost" href="#join">Become a Madman</a><a class="btn ghost" href="#what">What's a Madman?</a></div>
     </div></header>
     <section><div class="wrap"><div class="grid g2">
       <div class="card door"><span class="label">01 // For clients</span><h3>Post a Contract</h3>
@@ -309,6 +312,33 @@ const views = {
     <section style="padding-top:0"><div class="wrap">
       <div class="head"><div><span class="label">// Fresh on the board</span><h2 style="margin-top:8px">Open contracts</h2></div><a href="#board">See the board -></a></div>
       <div class="grid">${CONTRACTS.slice(0,3).map(contractCard).join("")}</div>
+    </div></section>`; },
+
+  what(){ return `<section><div class="wrap" style="max-width:980px">
+      <span class="label">// Definition</span>
+      <h1 style="margin:14px 0 6px">In·de·pend·ent mad·man</h1>
+      <div class="muted" style="font-size:15px">noun · one who answers to the work, not the org chart</div>
+      <p style="font-size:18px;line-height:1.6;margin:26px 0 8px;max-width:760px">One person who pairs real business sense with a stack of self-taught skills, and takes on the projects that would normally need three different people.</p>
+      <p class="muted">Also: <b style="color:var(--light)">Independent Madwoman</b>. Same madness, same method.</p>
+      <div class="grid g3" style="margin-top:30px">
+        <div class="card"><span class="n label">01</span><h3 style="margin:10px 0 8px">The strategy</h3><p class="muted">Business sense first. Who it's for, what it should pay off and how it gets there, worked out before anything gets built.</p></div>
+        <div class="card"><span class="n label">02</span><h3 style="margin:10px 0 8px">The toolbelt</h3><p class="muted">Self-taught across software, games, design, marketing and AI tools. Whatever gets the job done, learned as needed.</p></div>
+        <div class="card"><span class="n label">03</span><h3 style="margin:10px 0 8px">The crossover</h3><p class="muted">Building games sharpens the software. Software sharpens the marketing. That overlap is the method.</p></div>
+      </div>
+      <p style="font-size:17px;line-height:1.6;margin:34px 0 0;max-width:780px">An Independent Madman gets the call when a project falls between departments: too small for an agency, too wide for a specialist, and needed yesterday.</p>
+    </div></section>
+    <section style="padding-top:0"><div class="wrap" style="max-width:980px">
+      <div class="card plain markcard" style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center">
+        <span class="mark" aria-hidden="true" style="grid-template-columns:repeat(3,26px);gap:7px"><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i class="lit" style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i></span>
+        <div><span class="label">// The mark</span><h3 style="margin:10px 0 8px">Every lit window is a different project</h3>
+          <p class="muted" style="margin:0">A city at night looks like chaos from far away. Up close, it's a grid. The lit window is the job you're on right now, with full attention. There's always a method to the Madness.</p></div>
+      </div>
+    </div></section>
+    <section style="padding-top:0"><div class="wrap" style="max-width:980px">
+      <div class="grid g2">
+        <div class="card door"><span class="label">// Sound like you?</span><h3>Become a Madman</h3><p class="muted">Build your profile and take open contracts in your lane. You keep 95%.</p><p style="margin-top:14px"><a class="btn" href="#join">Become a Madman</a></p></div>
+        <div class="card door"><span class="label">// Need one?</span><h3>Need a Madman on this?</h3><p class="muted">Post your contract to the board, or offer it straight to a Madman you trust.</p><p style="margin-top:14px"><a class="btn" href="#post">Post a Contract</a></p></div>
+      </div>
     </div></section>`; },
 
   board(){ const list = CONTRACTS.filter(c=>!state.boardTags.size || c.tags.some(t=>state.boardTags.has(t)));
