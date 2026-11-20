@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Independent Madman — Preview (not open yet)</title>
+<meta name="theme-color" content="#1A1418">
+<link rel="icon" type="image/png" href="../img/favicon.png">
+<style>
+  @font-face { font-family: "Barlow Condensed"; src: url("../fonts/barlow-condensed-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Barlow Condensed"; src: url("../fonts/barlow-condensed-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Space Mono"; src: url("../fonts/space-mono-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Space Mono"; src: url("../fonts/space-mono-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+  :root {
+    --night: #1A1418; --after: #2A2228; --steel: #4A4648; --light: #EEF0E9; --concrete: #9A958C;
+    --neon: #31B1EC; --neon-hover: #6CCBF3; --brick: #A04A3C; --harbor: #5D6F78;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+    --pad: clamp(16px, 4vw, 48px); --max: 1180px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--night); color: var(--light); font: 400 14px/1.6 var(--mono); }
+  a { color: var(--neon); text-decoration: none; }
+  a:hover { color: var(--neon-hover); }
+  :focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+  h1, h2, h3, .display { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0; line-height: 1.05; }
+  h1 { font-size: clamp(40px, 7vw, 76px); }
+  h2 { font-size: clamp(28px, 4vw, 40px); }
+  h3 { font-size: 22px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--concrete); }
+  .label { font: 700 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--neon); }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+  /* Under construction banner */
+  .uc { position: sticky; top: 0; z-index: 30; background: repeating-linear-gradient(-45deg, #1d2a33 0 14px, #18232b 14px 28px);
+        border-bottom: 2px solid var(--neon); }
+  .uc .wrap { display: flex; gap: 14px; align-items: center; padding-top: 10px; padding-bottom: 10px; flex-wrap: wrap; }
+  .uc strong { font: 700 13px/1 var(--mono); letter-spacing: .12em; color: var(--neon); white-space: nowrap; }
+  .uc span { color: var(--light); font-size: 13px; }
+
+  /* Nav */
+  nav.top { border-bottom: 1px solid var(--steel); background: rgba(26,20,24,.94); }
+  nav.top .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--light); font: 700 20px/1 var(--display); letter-spacing: .1em; white-space: nowrap; }
+  .mark { display: grid; grid-template-columns: repeat(3, 7px); gap: 2px; }
+  .mark i { width: 7px; height: 7px; background: var(--steel); }
+  .mark i.lit { background: var(--neon); }
+  .links { display: flex; gap: 18px; margin-left: 8px; }
+  .links a { color: var(--concrete); font: 500 17px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; }
+  .links a:hover, .links a.on { color: var(--light); }
+  .navcta { margin-left: auto; display: flex; gap: 10px; }
+  @media (max-width: 900px) {
+    nav.top .wrap { height: auto; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 12px 18px; }
+    .links { order: 3; width: 100%; margin-left: 0; overflow-x: auto; white-space: nowrap; }
+    .navcta .btn { padding: 9px 12px; font-size: 15px; } }
+  @media (max-width: 520px) { .brand b { display: none; } }
+
+  .btn { display: inline-block; border: 2px solid var(--neon); background: var(--neon); color: var(--night); font: 700 17px/1 var(--display);
+         letter-spacing: .08em; text-transform: uppercase; padding: 11px 18px; cursor: pointer; }
+  .btn:hover { background: var(--neon-hover); border-color: var(--neon-hover); color: var(--night); }
+  .btn.ghost { background: transparent; color: var(--neon); }
+  .btn.ghost:hover { color: var(--night); background: var(--neon); }
+  .btn.sm { font-size: 15px; padding: 8px 12px; }
+
+  /* Hero */
+  .hero { position: relative; min-height: 560px; display: flex; align-items: flex-end; background: url("../img/header.jpg") center 40% / cover no-repeat; }
+  .hero::before { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--night) 0%, rgba(26,20,24,0) 45%), linear-gradient(to right, rgba(26,20,24,.92) 0%, rgba(26,20,24,.55) 55%, rgba(26,20,24,.15) 100%); }
+  .hero .wrap { position: relative; padding-bottom: 56px; padding-top: 80px; width: 100%; }
+  .slogan { font: 700 17px/1.4 var(--mono); color: var(--light); margin: 16px 0 26px; }
+
+  section { padding: 64px 0; }
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .card { background: var(--after); border: 1px solid var(--steel); border-top: 3px solid var(--neon); padding: 22px; }
+  .card.plain { border-top-width: 1px; }
+  .door h3 { font-size: 32px; margin: 10px 0 10px; }
+  .num { font: 700 46px/1 var(--display); color: var(--neon); }
+  .step .n { font: 700 13px/1 var(--mono); color: var(--neon); }
+  .head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+
+  /* Madmen */
+  .avatar { width: 64px; height: 64px; flex: none; display: grid; place-items: center; font: 700 24px/1 var(--display); color: var(--night); }
+  .mm { display: flex; flex-direction: column; gap: 12px; }
+  .mm .top { display: flex; gap: 14px; align-items: center; }
+  .mm .name { font: 700 22px/1.1 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--light); }
+  .mm .title { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--concrete); }
+  .status { font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+  .status::before { content: ""; width: 8px; height: 8px; background: var(--concrete); }
+  .status.free { color: var(--neon); } .status.free::before { background: var(--neon); }
+  .status.busy { color: var(--concrete); }
+  .score { display: flex; gap: 16px; font-size: 12px; color: var(--concrete); flex-wrap: wrap; }
+  .score b { color: var(--light); font-size: 14px; }
+  .fav { margin-left: auto; background: none; border: 1px solid var(--steel); color: var(--concrete); width: 34px; height: 34px; cursor: pointer; font-size: 16px; }
+  .fav.on { color: var(--neon); border-color: var(--neon); }
+  .sample { font-size: 10px; letter-spacing: .14em; color: var(--concrete); border: 1px dashed var(--steel); padding: 2px 6px; align-self: flex-start; }
+
+  /* Tags / filters */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { background: transparent; border: 1px solid var(--steel); color: var(--light); font: 400 12px/1 var(--mono); padding: 8px 10px; cursor: pointer; }
+  .tag:hover { border-color: var(--neon); }
+  .tag.on { background: var(--neon); border-color: var(--neon); color: var(--night); font-weight: 700; }
+  .chip { font-size: 11px; color: var(--concrete); border: 1px solid var(--steel); padding: 3px 7px; }
+  .toolbar { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 14px 0 22px; }
+  .toolbar label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+  .saved { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* Contracts */
+  .contract { display: grid; grid-template-columns: 1fr auto; gap: 14px 24px; align-items: start; }
+  .contract h3 { font-size: 24px; margin: 6px 0 8px; }
+  .contract .side { text-align: right; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .price { font: 700 30px/1 var(--display); color: var(--light); }
+  @media (max-width: 640px) { .contract { grid-template-columns: 1fr; } .contract .side { text-align: left; align-items: flex-start; } }
+
+  /* Forms */
+  form { display: grid; gap: 16px; }
+  .field { display: grid; gap: 6px; }
+  .field label { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--concrete); }
+  input, select, textarea { background: var(--night); color: var(--light); border: 1px solid var(--steel); font: 400 14px/1.5 var(--mono); padding: 10px 12px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--neon); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+  .feebox { background: var(--night); border: 1px solid var(--steel); padding: 16px; display: grid; gap: 6px; }
+  .feebox div { display: flex; justify-content: space-between; }
+  .feebox b { color: var(--neon); }
+
+  /* Profile */
+  .profile { display: grid; grid-template-columns: 300px 1fr; gap: 24px; }
+  @media (max-width: 800px) { .profile { grid-template-columns: 1fr; } }
+  .bigavatar { width: 100%; aspect-ratio: 1; display: grid; place-items: center; font: 700 96px/1 var(--display); color: var(--night); }
+  dl { margin: 0; display: grid; gap: 14px; }
+  dt { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--concrete); }
+  dd { margin: 4px 0 0; }
+  .formula { background: var(--night); border: 1px solid var(--steel); padding: 14px; font-size: 13px; overflow-x: auto; }
+
+  footer { border-top: 1px solid var(--steel); padding: 40px 0; margin-top: 40px; color: var(--concrete); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+  /* Toast */
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; pointer-events: none;
+           background: var(--after); border: 2px solid var(--neon); padding: 16px 20px; max-width: min(520px, 92vw); z-index: 50; transition: .25s; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast strong { display: block; font: 700 20px/1.1 var(--display); text-transform: uppercase; letter-spacing: .06em; color: var(--neon); margin-bottom: 4px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="uc" role="status">
+  <div class="wrap">
+    <strong>// UNDER CONSTRUCTION</strong>
+    <span>Independent Madman isn't open yet. This is a preview with sample profiles and contracts. Please come back soon.</span>
+  </div>
+</div>
+
+<nav class="top" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="lit"></i><i></i><i></i><i></i></span><b>INDEPENDENT MADMAN</b></a>
+    <div class="links">
+      <a href="#board" data-nav="board">Contract board</a>
+      <a href="#madmen" data-nav="madmen">Find a Madman</a>
+      <a href="#how" data-nav="how">How it works</a>
+      <a href="#fees" data-nav="fees">Fees</a>
+    </div>
+    <div class="navcta">
+      <a class="btn ghost sm" href="#join">Become a Madman</a>
+      <a class="btn sm" href="#post">Post a Contract</a>
+    </div>
+  </div>
+</nav>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom:10px"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="lit"></i><i></i><i></i><i></i></span>INDEPENDENT MADMAN</div>
+      <div style="color:var(--light);font-weight:700">There's always a method to the Madness.</div>
+    </div>
+    <div>
+      Preview only. Not open for contracts yet.<br>
+      Questions: <a href="mailto:andrew@independentmadman.com">andrew@independentmadman.com</a><br>
+      © 2026 Independent Madman
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert"><strong>Not open yet</strong><span id="toastMsg">Independent Madman is still under construction. Please come back soon.</span></div>
+
+<script>
+const TAGS = ["Web development","Game development","Graphic design","Illustration","Marketing","Copywriting","Video editing","3D art","Data & spreadsheets","AI tools","Mobile apps","Branding"];
+const SITE_AVG = 4.5, C = 5;
+const MADMEN = [
+  { id:"rook", name:"Jo Rook", title:"Madwoman", initials:"JR", color:"#31B1EC", status:"free", n:64, avg:4.9, ontime:.97, done:64,
+    headline:"Full-stack web builds that ship on time.", tags:["Web development","Mobile apps","AI tools"],
+    bio:"Eight years building websites and web apps for small businesses. I plan carefully, test everything and document what I hand over.",
+    edu:"B.S. Computer Science", certs:["AWS Certified Developer","Google UX Design Certificate"] },
+  { id:"vance", name:"Eli Vance", title:"Madman", initials:"EV", color:"#A04A3C", status:"busy", n:112, avg:4.8, ontime:.93, done:118,
+    headline:"Brand identities with a point of view.", tags:["Graphic design","Branding","Illustration"],
+    bio:"Logos, brand kits and packaging. I start every project with a long pre-plan meeting, because the best design starts with the right questions.",
+    edu:"BFA Graphic Design", certs:["Adobe Certified Professional"] },
+  { id:"kestrel", name:"Mara Kestrel", title:"Madwoman", initials:"MK", color:"#6CCBF3", status:"free", n:23, avg:4.95, ontime:1, done:23,
+    headline:"Indie game art and animation.", tags:["Game development","Illustration","3D art"],
+    bio:"Pixel art, character sprites and 3D props for indie games. Former studio artist, now independent.",
+    edu:"Associate of Arts, Animation", certs:["Unity Certified Associate: Artist"] },
+  { id:"hollis", name:"Sam Hollis", title:"Madman", initials:"SH", color:"#5D6F78", status:"free", n:41, avg:4.7, ontime:.95, done:42,
+    headline:"Marketing that pays for itself.", tags:["Marketing","Copywriting","Data & spreadsheets"],
+    bio:"Email campaigns, ad copy and the spreadsheets to prove they worked. MBA, ex-operations manager.",
+    edu:"MBA", certs:["Google Ads Search Certification","HubSpot Content Marketing"] },
+  { id:"oyelaran", name:"Dee Oyelaran", title:"Madwoman", initials:"DO", color:"#EEF0E9", status:"busy", n:87, avg:4.85, ontime:.98, done:88,
+    headline:"Video edits with rhythm.", tags:["Video editing","Marketing","AI tools"],
+    bio:"YouTube, short-form and product videos. Fast turnaround is nice, but clean cuts come first.",
+    edu:"B.A. Film Studies", certs:["Adobe Premiere Pro Certified"] },
+  { id:"brandt", name:"Cole Brandt", title:"Madman", initials:"CB", color:"#9A958C", status:"free", n:1, avg:5.0, ontime:1, done:1,
+    headline:"New Madman. Spreadsheets, automations, small tools.", tags:["Data & spreadsheets","AI tools","Web development"],
+    bio:"Just joined. Ten years fixing other people's spreadsheets, now doing it on my own terms.",
+    edu:"B.S. Information Systems", certs:["Microsoft Office Specialist: Excel Expert"] },
+  { id:"quill", name:"Rae Quill", title:"Madwoman", initials:"RQ", color:"#31B1EC", status:"free", n:9, avg:4.6, ontime:.89, done:9,
+    headline:"Words that sound like you, only sharper.", tags:["Copywriting","Branding","Marketing"],
+    bio:"Website copy, About pages and product descriptions. I interview you first, then write.",
+    edu:"B.A. English", certs:[] },
+  { id:"ferro", name:"Nico Ferro", title:"Madman", initials:"NF", color:"#A04A3C", status:"free", n:35, avg:4.75, ontime:.94, done:36,
+    headline:"Mobile apps from sketch to store.", tags:["Mobile apps","Web development","Game development"],
+    bio:"iOS and Android apps for small teams. I'll tell you honestly what to build first.",
+    edu:"Self-taught, 6 years professional", certs:["Meta Android Developer Certificate"] }
+];
+const CONTRACTS = [
+  { title:"Landing page for a food truck", tier:"Medium", budget:1200, days:21, tags:["Web development","Graphic design"],
+    desc:"One-page site with menu, weekly locations and a contact form. We have photos and a logo." },
+  { title:"Logo and brand kit for a farm stand", tier:"Small", budget:450, days:14, tags:["Branding","Graphic design"],
+    desc:"Logo, two colors, two fonts and a one-page style guide. Rustic but clean." },
+  { title:"Fix a bug in our Unity game's save system", tier:"Quick task", budget:90, days:3, tags:["Game development"],
+    desc:"Saves don't load after the second level. Project is small and well organized." },
+  { title:"Three product videos for social media", tier:"Medium", budget:900, days:14, tags:["Video editing","Marketing"],
+    desc:"We send raw footage; you cut three 30-second videos with captions." },
+  { title:"Inventory tracker spreadsheet with automations", tier:"Small", budget:300, days:10, tags:["Data & spreadsheets","AI tools"],
+    desc:"Track stock across two locations, flag low items, weekly summary email." },
+  { title:"Character sprites for a 2D platformer", tier:"Large", budget:4200, days:60, tags:["Game development","Illustration"],
+    desc:"Hero plus six enemies, idle, run, jump and attack animations. Style guide provided." }
+];
+function score(m){ const w = (C*SITE_AVG + m.avg*m.n)/(C+m.n); return w*(0.8+0.2*m.ontime); }
+const money = n => "$" + n.toLocaleString("en-US", {minimumFractionDigits: n%1?2:0, maximumFractionDigits:2});
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+
+const state = { tags:new Set(), freeOnly:false, favs:new Set(["vance"]), saved:[["Game development","Illustration"]], boardTags:new Set() };
+
+function toast(msg){ const t=document.getElementById("toast"); document.getElementById("toastMsg").textContent = msg || "Independent Madman is still under construction. Please come back soon."; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),4200); }
+
+function avatar(m, big){ return `<div class="${big?'bigavatar':'avatar'}" style="background:${m.color}" aria-hidden="true">${m.initials}</div>`; }
+function madmanCard(m){
+  return `<article class="card mm">
+    <div class="top">${avatar(m)}<div><a class="name" href="#m-${m.id}">${esc(m.name)}</a><div class="title">Independent ${m.title}</div></div>
+      <button class="fav ${state.favs.has(m.id)?'on':''}" data-fav="${m.id}" aria-label="Favorite ${esc(m.name)}" title="Favorite">${state.favs.has(m.id)?'★':'☆'}</button></div>
+    <div>${esc(m.headline)}</div>
+    <div class="score"><span>Madman Score <b>${score(m).toFixed(2)}</b></span><span><b>${m.avg.toFixed(1)}</b>★ · ${m.n} ratings</span><span>On time <b>${Math.round(m.ontime*100)}%</b></span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="status ${m.status}">${m.status==='free'?'Available':'On a contract'}</span>
+      <span class="sample">SAMPLE PROFILE</span></div>
+  </article>`;
+}
+function contractCard(c){
+  return `<article class="card contract">
+    <div><span class="label">${c.tier}</span><h3>${esc(c.title)}</h3><p class="muted">${esc(c.desc)}</p>
+      <div class="tags">${c.tags.map(t=>`<span class="chip">${t}</span>`).join("")}</div></div>
+    <div class="side"><div class="price">${money(c.budget)}</div><div class="muted" style="font-size:12px">Due in ${c.days} days</div>
+      <button class="btn sm" data-closed="Taking contracts opens at launch. Please come back soon.">Take this contract</button>
+      <span class="sample">SAMPLE CONTRACT</span></div>
+  </article>`;
+}
+
+const views = {
+  home(){ const top=[...MADMEN].sort((a,b)=>score(b)-score(a)).slice(0,3);
+    return `<header class="hero"><div class="wrap">
+      <div class="label">// The hub for independent talent</div>
+      <h1 style="margin-top:14px">One job. The right Madman.</h1>
+      <div class="slogan">There's always a method to the Madness.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#post">Post a Contract</a><a class="btn ghost" href="#join">Become a Madman</a></div>
+    </div></header>
+    <section><div class="wrap"><div class="grid g2">
+      <div class="card door"><span class="label">01 // For clients</span><h3>Post a Contract</h3>
+        <p class="muted">Post it to the open contract board, or offer it straight to a Madman you trust. Your money is held until you approve the work.</p>
+        <p style="margin-top:16px"><a class="btn" href="#post">Post a Contract</a> <a class="btn ghost" href="#madmen" style="margin-left:6px">Browse Madmen</a></p></div>
+      <div class="card door"><span class="label">02 // For freelancers</span><h3>Become a Madman</h3>
+        <p class="muted">Show what you can do, take open contracts in your lane, and keep 95% of what you earn. Madwomen welcome, of course.</p>
+        <p style="margin-top:16px"><a class="btn" href="#join">Become a Madman</a> <a class="btn ghost" href="#board" style="margin-left:6px">See the board</a></p></div>
+    </div></div></section>
+    <section style="padding-top:0"><div class="wrap"><div class="grid g4">
+      <div class="card plain"><div class="num">95%</div><p class="muted" style="margin-top:8px">of every contract goes to the Madman.</p></div>
+      <div class="card plain"><div class="num">5%</div><p class="muted" style="margin-top:8px">is all a client adds at checkout.</p></div>
+      <div class="card plain"><div class="num">1</div><p class="muted" style="margin-top:8px">contract at a time per Madman: full focus on yours.</p></div>
+      <div class="card plain"><div class="num">0</div><p class="muted" style="margin-top:8px">dollars released until the client approves the work.</p></div>
+    </div></div></section>
+    <section style="padding-top:0"><div class="wrap">
+      <div class="head"><div><span class="label">// Top of the ranking</span><h2 style="margin-top:8px">Highest Madman Scores</h2></div><a href="#madmen">See all Madmen -></a></div>
+      <div class="grid g3">${top.map(madmanCard).join("")}</div>
+    </div></section>
+    <section style="padding-top:0"><div class="wrap">
+      <div class="head"><div><span class="label">// Fresh on the board</span><h2 style="margin-top:8px">Open contracts</h2></div><a href="#board">See the board -></a></div>
+      <div class="grid">${CONTRACTS.slice(0,3).map(contractCard).join("")}</div>
+    </div></section>`; },
+
+  board(){ const list = CONTRACTS.filter(c=>!state.boardTags.size || c.tags.some(t=>state.boardTags.has(t)));
+    return `<section><div class="wrap">
+      <span class="label">// Open contract board</span><h1 style="margin:10px 0 8px">Contract board</h1>
+      <p class="muted">Any available Madman with matching tags can take an open contract. One contract at a time, so every job gets full attention.</p>
+      <div class="tags" style="margin:18px 0 24px">${TAGS.map(t=>`<button class="tag ${state.boardTags.has(t)?'on':''}" data-btag="${t}">${t}</button>`).join("")}</div>
+      <div class="grid">${list.length?list.map(contractCard).join(""):'<p class="muted">No sample contracts with those tags.</p>'}</div>
+    </div></section>`; },
+
+  madmen(){ let list=[...MADMEN].filter(m=>(!state.tags.size || m.tags.some(t=>state.tags.has(t))) && (!state.freeOnly || m.status==='free')).sort((a,b)=>score(b)-score(a));
+    return `<section><div class="wrap">
+      <span class="label">// Catalog</span><h1 style="margin:10px 0 8px">Find a Madman</h1>
+      <p class="muted">Tap tags to search. Ranked by Madman Score: ratings, contracts completed and on-time delivery.</p>
+      <div class="tags" style="margin-top:18px">${TAGS.map(t=>`<button class="tag ${state.tags.has(t)?'on':''}" data-tag="${t}">${t}</button>`).join("")}</div>
+      <div class="toolbar">
+        <label><input type="checkbox" id="freeOnly" ${state.freeOnly?'checked':''} style="width:auto"> Available only</label>
+        <button class="btn ghost sm" id="saveSearch" ${state.tags.size?'':'disabled style="opacity:.4;cursor:not-allowed"'}>Save this search</button>
+        <div class="saved"><span class="muted">Saved:</span>${state.saved.map((s,i)=>`<button class="tag" data-saved="${i}">${s.join(" + ")}</button>`).join("")}</div>
+        <button class="btn ghost sm" id="favsOnly">★ Favorites</button>
+      </div>
+      <div class="grid g3">${list.length?list.map(madmanCard).join(""):'<p class="muted">No sample Madmen match. Try fewer tags.</p>'}</div>
+    </div></section>`; },
+
+  profile(id){ const m = MADMEN.find(x=>x.id===id); if(!m) return views.madmen();
+    return `<section><div class="wrap">
+      <p><a href="#madmen"><- Back to the catalog</a></p>
+      <div class="profile" style="margin-top:14px">
+        <div>${avatar(m,true)}
+          <div class="card plain" style="margin-top:16px;display:grid;gap:10px">
+            <span class="status ${m.status}">${m.status==='free'?'Available':'On a contract'}</span>
+            <div class="score" style="display:grid;gap:4px"><span>Madman Score <b>${score(m).toFixed(2)}</b></span><span><b>${m.avg.toFixed(2)}</b>★ from ${m.n} ratings</span><span>${m.done} contracts completed</span><span>On time <b>${Math.round(m.ontime*100)}%</b></span></div>
+            <button class="btn" data-closed="Offering contracts opens at launch. Please come back soon." ${m.status==='busy'?'disabled style="opacity:.45;cursor:not-allowed"':''}>${m.status==='busy'?'On a contract':'Offer a contract'}</button>
+            <button class="btn ghost" data-fav="${m.id}">${state.favs.has(m.id)?'★ Favorited':'☆ Favorite'}</button>
+          </div>
+        </div>
+        <div class="card">
+          <span class="sample">SAMPLE PROFILE</span>
+          <h1 style="margin:12px 0 4px">${esc(m.name)}</h1>
+          <div class="label" style="color:var(--concrete)">Independent ${m.title}</div>
+          <p style="font-size:17px;margin:18px 0">${esc(m.headline)}</p>
+          <dl>
+            <div><dt>About</dt><dd>${esc(m.bio)}</dd></div>
+            <div><dt>Education</dt><dd>${esc(m.edu)}</dd></div>
+            <div><dt>Certificates</dt><dd>${m.certs.length?m.certs.map(esc).join("<br>"):'<span class="muted">None listed</span>'}</dd></div>
+            <div><dt>Portfolio and social</dt><dd><a href="#m-${m.id}" data-closed="Portfolio and social links go live at launch.">Portfolio</a> · <a href="#m-${m.id}" data-closed="Portfolio and social links go live at launch.">LinkedIn</a> · <a href="#m-${m.id}" data-closed="Portfolio and social links go live at launch.">Instagram</a></dd></div>
+          </dl>
+          <p class="muted" style="margin-top:20px;font-size:12px">Tags decide which searches and contracts a Madman shows up for. Clients don't see them.</p>
+        </div>
+      </div>
+    </div></section>`; },
+
+  post(){ return `<section><div class="wrap" style="max-width:860px">
+      <span class="label">// For clients</span><h1 style="margin:10px 0 8px">Post a Contract</h1>
+      <p class="muted">Your client account stays private. It's just your login, payment info and saved searches.</p>
+      <form class="card" id="postForm" style="margin-top:20px">
+        <div class="field"><label for="pt">Contract title</label><input id="pt" placeholder="e.g. Landing page for a food truck"></div>
+        <div class="field"><label for="pd">What needs doing</label><textarea id="pd" rows="4" placeholder="Describe the job. The details get locked in at the pre-plan meeting."></textarea></div>
+        <div class="field"><label>Skills needed (tags)</label><div class="tags">${TAGS.map(t=>`<button type="button" class="tag" data-ftag>${t}</button>`).join("")}</div></div>
+        <div class="two">
+          <div class="field"><label for="tier">Project size</label><select id="tier">
+            <option value="80">Quick task: under $100</option><option value="300" selected>Small: $100 to $500</option>
+            <option value="1500">Medium: $500 to $3,000</option><option value="8000">Large: $3,000 to $15,000</option><option value="20000">Major: over $15,000</option></select></div>
+          <div class="field"><label for="budget">Budget (USD)</label><input id="budget" type="number" min="25" step="5" value="300"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="due">Deadline</label><input id="due" type="date"></div>
+          <div class="field"><label for="who">Send to</label><select id="who"><option>The open contract board</option>${MADMEN.filter(m=>m.status==='free').map(m=>`<option>Offer directly to ${esc(m.name)}</option>`).join("")}</select></div>
+        </div>
+        <div class="feebox" id="feebox"></div>
+        <div><button class="btn" type="submit">Post contract</button> <span class="muted" style="margin-left:10px;font-size:12px">Preview: nothing will be posted.</span></div>
+      </form>
+    </div></section>`; },
+
+  join(){ return `<section><div class="wrap" style="max-width:860px">
+      <span class="label">// For freelancers</span><h1 style="margin:10px 0 8px">Become a Madman</h1>
+      <p class="muted">Build your profile, pick your tags, and take open contracts in your lane. You keep 95%.</p>
+      <form class="card" id="joinForm" style="margin-top:20px">
+        <div class="two">
+          <div class="field"><label for="jn">Name</label><input id="jn" placeholder="Your name"></div>
+          <div class="field"><label for="jt">Title</label><select id="jt"><option>Independent Madman</option><option>Independent Madwoman</option></select></div>
+        </div>
+        <div class="field"><label for="jp">Profile picture</label><input id="jp" type="file" accept="image/*"></div>
+        <div class="field"><label for="jb">Brief bio</label><textarea id="jb" rows="3" placeholder="What you do and how you work, in a few sentences."></textarea></div>
+        <div class="two">
+          <div class="field"><label for="je">Education</label><input id="je" placeholder="Degrees, schooling, or self-taught"></div>
+          <div class="field"><label for="jc">Certificates</label><input id="jc" placeholder="Separate with commas"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="jl">Portfolio link</label><input id="jl" placeholder="https://"></div>
+          <div class="field"><label for="js">Social media links</label><input id="js" placeholder="LinkedIn, Instagram, GitHub..."></div>
+        </div>
+        <div class="field"><label>Your tags (hidden from clients, decide where you show up)</label><div class="tags">${TAGS.map(t=>`<button type="button" class="tag" data-ftag>${t}</button>`).join("")}</div></div>
+        <div><button class="btn" type="submit">Create my Madman profile</button> <span class="muted" style="margin-left:10px;font-size:12px">Preview: nothing will be saved.</span></div>
+      </form>
+    </div></section>`; },
+
+  how(){ const steps=[["Contract accepted","The client's payment is charged and held. Nothing is released yet."],
+      ["Pre-plan meeting","Client and Madman meet online and agree a written Project Plan: what's made, what done looks like, the deadline and the revisions."],
+      ["The work","Bigger projects are split into milestones. Stuck? A Madman can send up a flare to the Madman Discord for help."],
+      ["Completion meeting","They walk through the delivery against the Project Plan."],
+      ["Client approves","Approve, or ask for changes inside the plan. No answer in 7 days counts as approved."],
+      ["Paid and rated","The Madman is paid, ownership passes to the client, and the rating updates the Madman Score."]];
+    return `<section><div class="wrap">
+      <span class="label">// The method</span><h1 style="margin:10px 0 24px">How it works</h1>
+      <div class="grid g3">${steps.map((s,i)=>`<div class="card step"><span class="n">${String(i+1).padStart(2,"0")}</span><h3 style="margin:10px 0 8px">${s[0]}</h3><p class="muted">${s[1]}</p></div>`).join("")}</div>
+    </div></section>
+    <section style="padding-top:0"><div class="wrap"><div class="grid g2">
+      <div class="card"><span class="label">// The Madman warranty</span><h2 style="margin:10px 0 12px">Bugs are on us</h2>
+        <p>Bugs in the code are fixed free for 30 days after approval. Cosmetic touch-ups follow the revision count in the Project Plan. New features are a new contract.</p></div>
+      <div class="card"><span class="label">// The Madman Score</span><h2 style="margin:10px 0 12px">Quality over speed</h2>
+        <p>Rank comes from ratings, contracts completed and delivering by the deadline. Finishing early earns nothing extra.</p>
+        <div class="formula">Score = (5 × site avg + sum of ratings) ÷ (5 + ratings) × (0.8 + 0.2 × on-time rate)</div></div>
+    </div></div></section>
+    <section style="padding-top:0"><div class="wrap"><div class="grid g2">
+      <div class="card plain"><span class="label">// Community</span><h3 style="margin:10px 0 8px">Madman Discord</h3><p class="muted">Shop talk, collaborators and flares for help.</p><button class="btn ghost sm" data-closed="The Discord servers open closer to launch.">Join (soon)</button></div>
+      <div class="card plain"><span class="label">// Community</span><h3 style="margin:10px 0 8px">Client Discord</h3><p class="muted">Hiring tips, platform questions and news.</p><button class="btn ghost sm" data-closed="The Discord servers open closer to launch.">Join (soon)</button></div>
+    </div></div></section>`; },
+
+  fees(){ return `<section><div class="wrap" style="max-width:900px">
+      <span class="label">// Fees</span><h1 style="margin:10px 0 8px">10%, split down the middle</h1>
+      <p class="muted">The client adds 5% and the Madman gives up 5%. No other fees.</p>
+      <div class="card" style="margin-top:22px">
+        <div class="field"><label for="calc">Contract price (USD)</label><input id="calc" type="number" min="25" step="25" value="500"></div>
+        <div class="feebox" id="calcbox" style="margin-top:14px"></div>
+      </div>
+      <div class="grid g3" style="margin-top:22px">
+        <div class="card plain"><span class="label">Independent Madman</span><div class="num" style="margin-top:10px">95%</div><p class="muted">kept by the freelancer</p></div>
+        <div class="card plain"><span class="label">Upwork (typical)</span><div class="num" style="margin-top:10px;color:var(--light)">90%</div><p class="muted">kept at a 10% fee; it varies from 0% to 15% per contract</p></div>
+        <div class="card plain"><span class="label">Fiverr</span><div class="num" style="margin-top:10px;color:var(--light)">80%</div><p class="muted">kept after a 20% fee</p></div>
+      </div>
+    </div></section>`; }
+};
+
+function feeLines(p){ p = Math.max(0, Number(p)||0); return `<div><span>Contract price</span><span>${money(p)}</span></div>
+  <div><span>Client pays (price + 5%)</span><b>${money(p*1.05)}</b></div><div><span>Madman keeps (price − 5%)</span><b>${money(p*0.95)}</b></div>`; }
+
+function render(){
+  const h = (location.hash||"#home").slice(1); const app = document.getElementById("app");
+  let key = h.startsWith("m-") ? "madmen" : (views[h] ? h : "home");
+  app.innerHTML = h.startsWith("m-") ? views.profile(h.slice(2)) : views[key]();
+  document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("on", a.dataset.nav===key));
+  if (key==="post"){ const b=document.getElementById("budget"), t=document.getElementById("tier"), f=document.getElementById("feebox");
+    const up=()=>f.innerHTML=feeLines(b.value); b.oninput=up; t.onchange=()=>{b.value=t.value; up();}; up(); }
+  if (key==="fees"){ const c=document.getElementById("calc"), f=document.getElementById("calcbox"); const up=()=>f.innerHTML=feeLines(c.value); c.oninput=up; up(); }
+  if (key==="madmen" && !h.startsWith("m-")){ const fo=document.getElementById("freeOnly"); fo.onchange=()=>{state.freeOnly=fo.checked; render();};
+    document.getElementById("saveSearch").onclick=()=>{ if(!state.tags.size) return; state.saved.push([...state.tags]); render(); toast("Search saved for this visit. Saved searches stay with your account once the site opens."); };
+    document.getElementById("favsOnly").onclick=()=>{ const names=MADMEN.filter(m=>state.favs.has(m.id)).map(m=>m.name); toast(names.length?"Your favorites: "+names.join(", ")+".":"No favorites yet. Tap the star on a profile."); }; }
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click", e=>{
+  const el = e.target.closest("button, a"); if(!el) return;
+  if (el.dataset.closed){ e.preventDefault(); toast(el.dataset.closed); return; }
+  if (el.dataset.fav){ const id=el.dataset.fav; state.favs.has(id)?state.favs.delete(id):state.favs.add(id); const y=scrollY; render(); scrollTo(0,y); return; }
+  if (el.dataset.tag){ const t=el.dataset.tag; state.tags.has(t)?state.tags.delete(t):state.tags.add(t); const y=scrollY; render(); scrollTo(0,y); return; }
+  if (el.dataset.btag){ const t=el.dataset.btag; state.boardTags.has(t)?state.boardTags.delete(t):state.boardTags.add(t); const y=scrollY; render(); scrollTo(0,y); return; }
+  if (el.dataset.saved){ state.tags=new Set(state.saved[+el.dataset.saved]); const y=scrollY; render(); scrollTo(0,y); return; }
+  if (el.hasAttribute("data-ftag")){ el.classList.toggle("on"); return; }
+});
+document.addEventListener("submit", e=>{ e.preventDefault(); toast(e.target.id==="joinForm" ? "Madman sign-ups open at launch. Please come back soon." : "Posting contracts opens at launch. Please come back soon."); });
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
