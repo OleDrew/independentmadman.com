@@ -156,6 +156,46 @@
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast strong { display: block; font: 700 20px/1.1 var(--display); text-transform: uppercase; letter-spacing: .06em; color: var(--neon); margin-bottom: 4px; }
   [hidden] { display: none !important; }
+  /* Phone layout */
+  .menubtn { display: none; margin-left: auto; background: none; border: 1px solid var(--steel); color: var(--light); width: 44px; height: 44px; cursor: pointer; padding: 0; }
+  .menubtn span { display: block; width: 20px; height: 2px; background: var(--light); margin: 4px auto; transition: .2s; }
+  nav.top.open .menubtn span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  nav.top.open .menubtn span:nth-child(2) { opacity: 0; }
+  nav.top.open .menubtn span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .uc .short { display: none; }
+  @media (max-width: 700px) {
+    .uc { position: static; }
+    .uc .wrap { padding-top: 8px; padding-bottom: 8px; gap: 6px 10px; }
+    .uc strong { font-size: 11px; }
+    .uc .long { display: none; } .uc .short { display: inline; font-size: 12px; }
+    nav.top { position: sticky; top: 0; z-index: 30; }
+    nav.top .wrap { height: 60px; flex-wrap: nowrap; padding-top: 0; padding-bottom: 0; }
+    .brand b { display: inline; font-size: 17px; }
+    .menubtn { display: block; }
+    .links, .navcta { display: none; }
+    nav.top.open .wrap { height: auto; flex-wrap: wrap; padding-bottom: 18px; }
+    nav.top.open .links { display: flex; flex-direction: column; gap: 0; width: 100%; order: 3; overflow: visible; }
+    nav.top.open .links a { font-size: 22px; padding: 12px 0; border-bottom: 1px solid var(--steel); }
+    nav.top.open .navcta { display: grid; grid-template-columns: 1fr 1fr; width: 100%; order: 4; margin: 6px 0 0; }
+    nav.top.open .navcta .btn { text-align: center; padding: 13px 8px; }
+    section { padding: 40px 0; }
+    .hero { min-height: 520px; }
+    .hero .wrap { padding-bottom: 36px; }
+    .hero .btn { flex: 1 1 100%; text-align: center; }
+    .tags.scroll { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; margin-right: calc(-1 * var(--pad)); padding-right: var(--pad); scrollbar-width: none; }
+    .tags.scroll::-webkit-scrollbar { display: none; }
+    .tags.scroll .tag { flex: none; }
+    .tag { min-height: 40px; padding: 10px 12px; }
+    .fav { width: 44px; height: 44px; }
+    .btn.sm { padding: 11px 14px; }
+    input, select, textarea { font-size: 16px; }
+    .card { padding: 18px; }
+    .door h3 { font-size: 28px; }
+    .toolbar { gap: 10px; }
+    .head a { font-size: 13px; }
+  }
+  @media (max-width: 360px) { .brand b { font-size: 15px; } }
+
 </style>
 </head>
 <body>
@@ -163,20 +203,21 @@
 <div class="uc" role="status">
   <div class="wrap">
     <strong>// UNDER CONSTRUCTION</strong>
-    <span>Independent Madman isn't open yet. This is a preview with sample profiles and contracts. Please come back soon.</span>
+    <span class="long">Independent Madman isn't open yet. This is a preview with sample profiles and contracts. Please come back soon.</span><span class="short">Not open yet. Sample data only. Please come back soon.</span>
   </div>
 </div>
 
 <nav class="top" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="lit"></i><i></i><i></i><i></i></span><b>INDEPENDENT MADMAN</b></a>
-    <div class="links">
+    <div class="links" id="mainlinks">
       <a href="#what" data-nav="what">What's a Madman?</a>
       <a href="#board" data-nav="board">Contract board</a>
       <a href="#madmen" data-nav="madmen">Find a Madman</a>
       <a href="#how" data-nav="how">How it works</a>
       <a href="#fees" data-nav="fees">Fees</a>
     </div>
+    <button class="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="mainlinks"><span></span><span></span><span></span></button>
     <div class="navcta">
       <a class="btn ghost sm" href="#join">Become a Madman</a>
       <a class="btn sm" href="#post">Post a Contract</a>
@@ -345,7 +386,7 @@ const views = {
     return `<section><div class="wrap">
       <span class="label">// Open contract board</span><h1 style="margin:10px 0 8px">Contract board</h1>
       <p class="muted">Any available Madman with matching tags can take an open contract. One contract at a time, so every job gets full attention.</p>
-      <div class="tags" style="margin:18px 0 24px">${TAGS.map(t=>`<button class="tag ${state.boardTags.has(t)?'on':''}" data-btag="${t}">${t}</button>`).join("")}</div>
+      <div class="tags scroll" style="margin:18px 0 24px">${TAGS.map(t=>`<button class="tag ${state.boardTags.has(t)?'on':''}" data-btag="${t}">${t}</button>`).join("")}</div>
       <div class="grid">${list.length?list.map(contractCard).join(""):'<p class="muted">No sample contracts with those tags.</p>'}</div>
     </div></section>`; },
 
@@ -353,7 +394,7 @@ const views = {
     return `<section><div class="wrap">
       <span class="label">// Catalog</span><h1 style="margin:10px 0 8px">Find a Madman</h1>
       <p class="muted">Tap tags to search. Ranked by Madman Score: ratings, contracts completed and on-time delivery.</p>
-      <div class="tags" style="margin-top:18px">${TAGS.map(t=>`<button class="tag ${state.tags.has(t)?'on':''}" data-tag="${t}">${t}</button>`).join("")}</div>
+      <div class="tags scroll" style="margin-top:18px">${TAGS.map(t=>`<button class="tag ${state.tags.has(t)?'on':''}" data-tag="${t}">${t}</button>`).join("")}</div>
       <div class="toolbar">
         <label><input type="checkbox" id="freeOnly" ${state.freeOnly?'checked':''} style="width:auto"> Available only</label>
         <button class="btn ghost sm" id="saveSearch" ${state.tags.size?'':'disabled style="opacity:.4;cursor:not-allowed"'}>Save this search</button>
@@ -492,6 +533,7 @@ function render(){
 
 document.addEventListener("click", e=>{
   const el = e.target.closest("button, a"); if(!el) return;
+  if (el.closest("#mainlinks") || el.closest(".navcta")) closeMenu();
   if (el.dataset.closed){ e.preventDefault(); toast(el.dataset.closed); return; }
   if (el.dataset.fav){ const id=el.dataset.fav; state.favs.has(id)?state.favs.delete(id):state.favs.add(id); const y=scrollY; render(); scrollTo(0,y); return; }
   if (el.dataset.tag){ const t=el.dataset.tag; state.tags.has(t)?state.tags.delete(t):state.tags.add(t); const y=scrollY; render(); scrollTo(0,y); return; }
@@ -500,7 +542,10 @@ document.addEventListener("click", e=>{
   if (el.hasAttribute("data-ftag")){ el.classList.toggle("on"); return; }
 });
 document.addEventListener("submit", e=>{ e.preventDefault(); toast(e.target.id==="joinForm" ? "Madman sign-ups open at launch. Please come back soon." : "Posting contracts opens at launch. Please come back soon."); });
-window.addEventListener("hashchange", render);
+window.addEventListener("hashchange", ()=>{ closeMenu(); render(); });
+const navEl = document.querySelector("nav.top"), menuBtn = document.querySelector(".menubtn");
+function closeMenu(){ navEl.classList.remove("open"); menuBtn.setAttribute("aria-expanded","false"); }
+menuBtn.addEventListener("click", ()=>{ const o = navEl.classList.toggle("open"); menuBtn.setAttribute("aria-expanded", String(o)); });
 render();
 </script>
 </body>
